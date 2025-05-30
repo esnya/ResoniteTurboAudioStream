@@ -33,7 +33,7 @@ internal static class AudioStreamInterface_SetAudioStream_Patch
 
             ApplyLowLatencySettings(stream);
             ResoniteMod.DebugFunc(() =>
-                $"Applied low-latency settings (MinimumBufferDelay: {stream.MinimumBufferDelay.Value}, BufferSize: {stream.BufferSize.Value}, ApplicationType: {stream.ApplicationType.Value})"
+                $"Applied low-latency settings (MinimumBufferDelay: {stream.MinimumBufferDelay.Value}, BufferSize: {stream.BufferSize.Value}, ApplicationType: {stream.ApplicationType.Value}, EncoderDelay: {stream.EncoderDelay.Value})"
             );
         }
         catch (ReflectionTypeLoadException ex)
@@ -59,5 +59,6 @@ internal static class AudioStreamInterface_SetAudioStream_Patch
         stream.MinimumBufferDelay.Value = TurboAudioStreamConfig.MinimumBufferDelay;
         stream.BufferSize.Value = TurboAudioStreamConfig.BufferSize;
         stream.ApplicationType.Value = TurboAudioStreamConfig.ApplicationType;
+        stream.EncoderDelay.Value = TurboAudioStreamConfig.EncoderDelay;
     }
 }
