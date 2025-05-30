@@ -17,12 +17,20 @@ TurboAudioStream significantly reduces audio streaming latency in Resonite by pa
 
 The mod creates a configuration file that allows you to customize the audio settings:
 
-- **MinimumBufferDelay** (0.001-1.0s): Lower values reduce latency but may cause audio dropouts
-  - Default: 0.2s (standard), Recommended for low latency: 0.01s
-- **BufferSize** (128-48000 samples): Smaller buffers reduce latency but require more CPU
-  - Default: 24000 samples (standard), Recommended for low latency: 480 samples  
-- **ApplicationType**: Choose between Audio (high quality), VoIP (voice optimized), or RestrictedLowDelay (lowest latency)
-  - Default: Audio (2049), Recommended for low latency: RestrictedLowDelay (2051)
+- **MinimumBufferDelay** (0.001-1.0s): Controls buffer delay in seconds
+  - Default: 0.2s (Resonite default)
+  - Recommended for low latency: 0.01s (95% reduction)
+  - Lower values reduce latency but may cause audio dropouts
+
+- **BufferSize** (128-48000 samples): Audio buffer size in samples
+  - Default: 24000 samples (Resonite default)
+  - Recommended for low latency: 480 samples (50x smaller buffer)
+  - Smaller buffers reduce latency but require more CPU
+
+- **ApplicationType**: Opus codec optimization mode
+  - Default: Audio (high quality, Resonite default)
+  - Recommended for low latency: RestrictedLowDelay (lowest latency mode)
+  - Options: Audio (high quality), VoIP (voice optimized), RestrictedLowDelay (lowest latency)
 
 Configuration changes take effect immediately without requiring a restart.
 
