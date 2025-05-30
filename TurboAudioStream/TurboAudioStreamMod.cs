@@ -1,6 +1,8 @@
 using System.Linq;
 using System.Reflection;
+using FrooxEngine;
 using HarmonyLib;
+using POpusCodec.Enums;
 using ResoniteModLoader;
 #if DEBUG
 using ResoniteHotReloadLib;
@@ -39,6 +41,27 @@ public class TurboAudioStreamMod : ResoniteMod
     private static ModConfiguration? configuration;
     private static readonly Harmony harmony = new(HarmonyId);
 
+    [AutoRegisterConfigKey]
+    private static readonly ModConfigurationKey<float> MinimumBufferDelayKey = new(
+        "MinimumBufferDelay",
+        "Minimum buffer delay for audio streams in seconds. Lower values reduce latency but may cause audio dropouts. Range: 0.001-1.0, Default: 0.2 (Standard), Recommended for low latency: 0.01",
+        () => TurboAudioStreamConfig.DefaultMinimumBufferDelay
+    );
+
+    [AutoRegisterConfigKey]
+    private static readonly ModConfigurationKey<int> BufferSizeKey = new(
+        "BufferSize",
+        "Audio buffer size in samples. Smaller buffers reduce latency but require more CPU. Range: 128-48000, Default: 24000 (Standard), Recommended for low latency: 480",
+        () => TurboAudioStreamConfig.DefaultBufferSize
+    );
+
+    [AutoRegisterConfigKey]
+    private static readonly ModConfigurationKey<OpusApplicationType> OpusApplicationTypeKey = new(
+        "ApplicationType",
+        "Opus encoder application type. Audio (2049): High quality, VoIP (2048): Voice optimized, RestrictedLowDelay (2051): Lowest latency. Default: Audio, Recommended for low latency: RestrictedLowDelay",
+        () => TurboAudioStreamConfig.DefaultApplicationType
+    );
+
     /// <inheritdoc />
     public override void OnEngineInit()
     {
@@ -49,14 +72,23 @@ public class TurboAudioStreamMod : ResoniteMod
 #endif
     }
 
-    /// <summary>
-    /// Initializes the mod by applying Harmony patches and loading configuration.
-    /// </summary>
-    /// <param name="mod">The mod instance to initialize.</param>
     private static void Init(ResoniteMod? mod)
     {
         harmony.PatchAll();
         configuration = mod?.GetConfiguration();
+
+        if (configuration is not null)
+        {
+            ApplyConfiguration(configuration);
+            configuration.OnThisConfigurationChanged += conf => ApplyConfiguration(conf.Config);
+        }
+    }
+
+    private static void ApplyConfiguration(ModConfiguration config)
+    {
+        TurboAudioStreamConfig.MinimumBufferDelay = config.GetValue(MinimumBufferDelayKey);
+        TurboAudioStreamConfig.BufferSize = config.GetValue(BufferSizeKey);
+        TurboAudioStreamConfig.ApplicationType = config.GetValue(OpusApplicationTypeKey);
     }
 
 #if DEBUG
