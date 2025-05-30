@@ -61,6 +61,13 @@ public sealed class TurboAudioStreamMod : ResoniteMod
         () => TurboAudioStreamConfig.DefaultApplicationType
     );
 
+    [AutoRegisterConfigKey]
+    private static readonly ModConfigurationKey<Delay> EncoderDelayKey = new(
+        "EncoderDelay",
+        "Opus encoder frame delay. Controls the frame size and latency trade-off. Delay2dot5ms (2.5ms): Ultra-low latency, Delay5ms (5ms): Very low latency, Delay10ms (10ms): Low latency, Delay20ms (20ms): Standard (default), Delay40ms (40ms): Higher quality, Delay60ms (60ms): Highest quality. Default: Delay20ms, Recommended for low latency: Delay2dot5ms",
+        () => TurboAudioStreamConfig.DefaultEncoderDelay
+    );
+
     /// <inheritdoc />
     public override void OnEngineInit()
     {
@@ -88,6 +95,7 @@ public sealed class TurboAudioStreamMod : ResoniteMod
         TurboAudioStreamConfig.MinimumBufferDelay = config.GetValue(MinimumBufferDelayKey);
         TurboAudioStreamConfig.BufferSize = config.GetValue(BufferSizeKey);
         TurboAudioStreamConfig.ApplicationType = config.GetValue(OpusApplicationTypeKey);
+        TurboAudioStreamConfig.EncoderDelay = config.GetValue(EncoderDelayKey);
     }
 
 #if DEBUG

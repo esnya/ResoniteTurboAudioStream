@@ -32,6 +32,12 @@ The mod creates a configuration file that allows you to customize the audio sett
   - Recommended for low latency: RestrictedLowDelay (lowest latency mode)
   - Options: Audio (high quality), VoIP (voice optimized), RestrictedLowDelay (lowest latency)
 
+- **EncoderDelay**: Opus encoder frame delay controlling latency vs quality trade-off
+  - Default: Delay20ms (20ms, Resonite default)
+  - Recommended for low latency: Delay2dot5ms (2.5ms, ultra-low latency)
+  - Options: Delay2dot5ms (2.5ms), Delay5ms (5ms), Delay10ms (10ms), Delay20ms (20ms), Delay40ms (40ms), Delay60ms (60ms)
+  - Lower values reduce latency but may impact audio quality
+
 Configuration changes take effect immediately without requiring a restart.
 
 ## Installation
