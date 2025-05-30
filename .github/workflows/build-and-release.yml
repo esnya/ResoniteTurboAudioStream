@@ -15,8 +15,8 @@ on:
     - ci/*
 
 env:
-  artifact: EsnyaResoniteModTemplate.dll
-  project_path: EsnyaResoniteModTemplate
+  artifact: TurboAudioStream.dll
+  project_path: TurboAudioStream
 
 permissions:
   contents: read

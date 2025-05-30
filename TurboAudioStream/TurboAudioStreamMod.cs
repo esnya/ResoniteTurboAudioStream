@@ -6,15 +6,15 @@ using ResoniteModLoader;
 using ResoniteHotReloadLib;
 #endif
 
-namespace EsnyaResoniteModTemplate;
+namespace TurboAudioStream;
 
 /// <summary>
-/// Represents the main mod class for EsnyaResoniteModTemplate.
+/// Represents the main mod class for TurboAudioStream.
 /// Provides core functionality for the Resonite mod with hot reload support.
 /// </summary>
-public class EsnyaResoniteModTemplateMod : ResoniteMod
+public class TurboAudioStreamMod : ResoniteMod
 {
-    private static readonly Assembly Assembly = typeof(EsnyaResoniteModTemplateMod).Assembly;
+    private static readonly Assembly Assembly = typeof(TurboAudioStreamMod).Assembly;
 
     /// <inheritdoc />
     public override string Name => Assembly.GetCustomAttribute<AssemblyTitleAttribute>().Title;

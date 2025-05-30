@@ -3,15 +3,15 @@
   <!-- Common Package Properties - Update these when creating a new mod from this template -->
   <PropertyGroup>
     <Authors>esnya</Authors>
-    <Description>A Resonite mod created with EsnyaResoniteModTemplate</Description>
-    <RepositoryUrl>https://github.com/esnya/EsnyaResoniteModTemplate</RepositoryUrl>
+    <Description>A Resonite mod created with TurboAudioStream</Description>
+    <RepositoryUrl>https://github.com/esnya/ResoniteTurboAudioStream</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Copyright>Copyright (c) 2025 $(Authors)</Copyright>
     <PackageTags>Resonite,Mod,ResoniteModLoader</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>0.0.0-template.1</Version>
+    <Version>0.0.0</Version>
   </PropertyGroup>
   <!-- Common Build Properties -->
   <PropertyGroup>
