@@ -28,6 +28,7 @@
     <AssemblyTitle>$(MSBuildProjectName)</AssemblyTitle>
     <Product>$(MSBuildProjectName)</Product>
     <!-- Code Quality -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest-all</AnalysisLevel>

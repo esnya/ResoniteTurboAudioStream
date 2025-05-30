@@ -1,6 +1,5 @@
 using System.Linq;
 using System.Reflection;
-using FrooxEngine;
 using HarmonyLib;
 using POpusCodec.Enums;
 using ResoniteModLoader;
@@ -14,7 +13,7 @@ namespace TurboAudioStream;
 /// Represents the main mod class for TurboAudioStream.
 /// Provides core functionality for the Resonite mod with hot reload support.
 /// </summary>
-public class TurboAudioStreamMod : ResoniteMod
+public sealed class TurboAudioStreamMod : ResoniteMod
 {
     private static readonly Assembly Assembly = typeof(TurboAudioStreamMod).Assembly;
 

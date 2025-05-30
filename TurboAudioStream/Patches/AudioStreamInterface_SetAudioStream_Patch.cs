@@ -2,11 +2,8 @@ using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Elements.Assets;
-using Elements.Core;
 using FrooxEngine;
 using HarmonyLib;
-using POpusCodec;
-using POpusCodec.Enums;
 using ResoniteModLoader;
 
 namespace TurboAudioStream.Patches;
@@ -15,7 +12,7 @@ namespace TurboAudioStream.Patches;
 /// Patches AudioStreamInterface.SetAudioStream method to apply low-latency settings to OpusStream
 /// </summary>
 [HarmonyPatch(typeof(AudioStreamInterface), nameof(AudioStreamInterface.SetAudioStream))]
-static class AudioStreamInterface_SetAudioStream_Patch
+internal static class AudioStreamInterface_SetAudioStream_Patch
 {
     /// <summary>
     /// Applies low-latency settings to OpusStream before SetAudioStream method execution

@@ -5,7 +5,7 @@ namespace TurboAudioStream;
 /// <summary>
 /// Configuration class for TurboAudioStream low-latency audio settings
 /// </summary>
-static class TurboAudioStreamConfig
+internal static class TurboAudioStreamConfig
 {
     public const float DefaultMinimumBufferDelay = 0.2f;
     public const int DefaultBufferSize = 24000;

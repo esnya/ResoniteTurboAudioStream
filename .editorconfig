@@ -19,6 +19,19 @@ indent_size = 2
 # C# code style settings
 [*.cs]
 
+# Category based severity levels
+dotnet_analyzer_diagnostic.category-Design.severity = warning
+dotnet_analyzer_diagnostic.category-Documentation.severity = warning
+dotnet_analyzer_diagnostic.category-Globalization.severity = warning
+dotnet_analyzer_diagnostic.category-Interoperability.severity = warning
+dotnet_analyzer_diagnostic.category-Maintainability.severity = warning
+dotnet_analyzer_diagnostic.category-Naming.severity = warning
+dotnet_analyzer_diagnostic.category-SingleFile.severity = warning
+dotnet_analyzer_diagnostic.category-Reliability.severity = warning
+dotnet_analyzer_diagnostic.category-Security.severity = error
+dotnet_analyzer_diagnostic.category-Style.severity = warning
+dotnet_analyzer_diagnostic.category-Usage.severity = warning
+
 # Documentation requirements
 dotnet_diagnostic.CS1591.severity = warning  # Missing XML comment for publicly visible type or member
 
@@ -110,37 +123,5 @@ dotnet_style_prefer_conditional_expression_over_return = true:suggestion
 # File headers
 file_header_template = unset
 
-# IDE診断
-dotnet_diagnostic.IDE0003.severity = warning  # Remove this or Me qualification
-dotnet_diagnostic.IDE0009.severity = warning  # Add this or Me qualification
-dotnet_diagnostic.IDE0011.severity = warning  # Add braces
-dotnet_diagnostic.IDE0017.severity = suggestion  # Use object initializers
-dotnet_diagnostic.IDE0028.severity = suggestion  # Use collection initializers
-dotnet_diagnostic.IDE0032.severity = suggestion  # Use auto property
-dotnet_diagnostic.IDE0034.severity = suggestion  # Simplify 'default' expression
-dotnet_diagnostic.IDE0037.severity = suggestion  # Use inferred member name
-dotnet_diagnostic.IDE0039.severity = suggestion  # Use local function instead of lambda
-dotnet_diagnostic.IDE0041.severity = suggestion  # Use 'is null' check
-dotnet_diagnostic.IDE0044.severity = warning  # Add readonly modifier
-dotnet_diagnostic.IDE0045.severity = suggestion  # Use conditional expression for assignment
-dotnet_diagnostic.IDE0046.severity = suggestion  # Use conditional expression for return
-dotnet_diagnostic.IDE0054.severity = suggestion  # Use compound assignment
-dotnet_diagnostic.IDE0056.severity = suggestion  # Use index operator
-dotnet_diagnostic.IDE0057.severity = suggestion  # Use range operator
-dotnet_diagnostic.IDE0058.severity = none  # Remove unnecessary expression value
-dotnet_diagnostic.IDE0059.severity = warning  # Remove unnecessary value assignment
-dotnet_diagnostic.IDE0060.severity = warning  # Remove unused parameter
-dotnet_diagnostic.IDE0061.severity = suggestion  # Use expression body for local functions
-dotnet_diagnostic.IDE0062.severity = suggestion  # Make local function static
-dotnet_diagnostic.IDE0063.severity = suggestion  # Use simple using statement
-dotnet_diagnostic.IDE0065.severity = warning  # using directive placement
-dotnet_diagnostic.IDE0066.severity = suggestion  # Use switch expression
-dotnet_diagnostic.IDE0071.severity = suggestion  # Simplify interpolation
-dotnet_diagnostic.IDE0075.severity = suggestion  # Simplify conditional expression
-dotnet_diagnostic.IDE0078.severity = suggestion  # Use pattern matching
-dotnet_diagnostic.IDE0083.severity = suggestion  # Use pattern matching (not operator)
-dotnet_diagnostic.IDE0090.severity = suggestion  # Simplify new expression
-dotnet_diagnostic.IDE0100.severity = warning  # Remove unnecessary equality operator
-dotnet_diagnostic.IDE0110.severity = suggestion  # Remove unnecessary discard
-dotnet_diagnostic.IDE0120.severity = suggestion  # Simplify LINQ expression
-dotnet_diagnostic.IDE0130.severity = suggestion  # Namespace does not match folder structure
+# Namespace style
+csharp_style_namespace_declarations = file_scoped:warning
