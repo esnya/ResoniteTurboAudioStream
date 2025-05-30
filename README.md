@@ -1,6 +1,30 @@
 # TurboAudioStream
 
-A [ResoniteModLoader](https://github.com/resonite-modding-group/ResoniteModLoader) mod for [Resonite](https://resonite.com/).
+A low-latency audio streaming optimization mod for [Resonite](https://resonite.com/) using [ResoniteModLoader](https://github.com/resonite-modding-group/ResoniteModLoader).
+
+## About
+
+TurboAudioStream significantly reduces audio streaming latency in Resonite by patching the default audio stream settings. The mod applies optimized buffer configurations and Opus codec settings to minimize delay between your microphone input and what other users hear in the virtual world.
+
+### Key Features
+
+- **Reduced Latency**: Optimizes audio buffer settings to minimize streaming delay
+- **Configurable Settings**: Customizable buffer size, delay, and Opus application type
+- **Local User Only**: Only affects your outgoing audio stream, not incoming audio from others
+- **Real-time Configuration**: Settings can be adjusted without restarting Resonite
+
+### Configuration
+
+The mod creates a configuration file that allows you to customize the audio settings:
+
+- **MinimumBufferDelay** (0.001-1.0s): Lower values reduce latency but may cause audio dropouts
+  - Default: 0.2s (standard), Recommended for low latency: 0.01s
+- **BufferSize** (128-48000 samples): Smaller buffers reduce latency but require more CPU
+  - Default: 24000 samples (standard), Recommended for low latency: 480 samples  
+- **ApplicationType**: Choose between Audio (high quality), VoIP (voice optimized), or RestrictedLowDelay (lowest latency)
+  - Default: Audio (2049), Recommended for low latency: RestrictedLowDelay (2051)
+
+Configuration changes take effect immediately without requiring a restart.
 
 ## Installation
 
