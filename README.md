@@ -17,26 +17,26 @@ TurboAudioStream significantly reduces audio streaming latency in Resonite by pa
 
 The mod creates a configuration file that allows you to customize the audio settings:
 
-- **MinimumBufferDelay** (0.001-1.0s): Controls buffer delay in seconds
-  - Default: 0.2s (Resonite default)
-  - Recommended for low latency: 0.01s (95% reduction)
-  - Lower values reduce latency but may cause audio dropouts
+- **MinimumBufferDelay** (0.001-1.0s): Audio buffer delay in seconds
+  - Default: 0.2s
+  - Recommended: 0.02s (significantly reduced latency)
+  - Lower values reduce latency but may drop audio
 
-- **BufferSize** (128-48000 samples): Audio buffer size in samples
-  - Default: 24000 samples (Resonite default)
-  - Recommended for low latency: 480 samples (50x smaller buffer)
-  - Smaller buffers reduce latency but require more CPU
+- **BufferSize** (128-48000 samples): Buffer capacity in samples
+  - Default: 24000 samples
+  - Higher values improve stability; lower values reduce memory usage
+  - **Note**: This setting does not affect latency
 
-- **ApplicationType**: Opus codec optimization mode
-  - Default: Audio (high quality, Resonite default)
-  - Recommended for low latency: RestrictedLowDelay (lowest latency mode)
+- **ApplicationType**: Opus encoder mode
+  - Default: Audio
+  - Recommended: RestrictedLowDelay (lowest latency mode)
   - Options: Audio (high quality), VoIP (voice optimized), RestrictedLowDelay (lowest latency)
 
-- **EncoderDelay**: Opus encoder frame delay controlling latency vs quality trade-off
-  - Default: Delay20ms (20ms, Resonite default)
-  - Recommended for low latency: Delay2dot5ms (2.5ms, ultra-low latency)
+- **EncoderDelay**: Opus frame delay for latency vs. quality (2.5ms - 60ms)
+  - Default: Delay20ms (20ms)
+  - Recommended: Delay20ms (balanced latency and quality)
+  - **⚠️ WARNING**: Changing this setting may break the audio stream
   - Options: Delay2dot5ms (2.5ms), Delay5ms (5ms), Delay10ms (10ms), Delay20ms (20ms), Delay40ms (40ms), Delay60ms (60ms)
-  - Lower values reduce latency but may impact audio quality
 
 Configuration changes take effect immediately without requiring a restart.
 
