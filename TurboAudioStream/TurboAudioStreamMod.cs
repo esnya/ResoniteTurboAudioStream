@@ -43,28 +43,28 @@ public sealed class TurboAudioStreamMod : ResoniteMod
     [AutoRegisterConfigKey]
     private static readonly ModConfigurationKey<float> MinimumBufferDelayKey = new(
         "MinimumBufferDelay",
-        "Minimum buffer delay for audio streams in seconds. Lower values reduce latency but may cause audio dropouts. Range: 0.001-1.0, Default: 0.2 (Standard), Recommended for low latency: 0.01",
+        "Audio buffer delay in seconds. Lower reduces latency but may drop audio. Default: 0.2, recommended: 0.01",
         () => TurboAudioStreamConfig.DefaultMinimumBufferDelay
     );
 
     [AutoRegisterConfigKey]
     private static readonly ModConfigurationKey<int> BufferSizeKey = new(
         "BufferSize",
-        "Audio buffer size in samples. Smaller buffers reduce latency but require more CPU. Range: 128-48000, Default: 24000 (Standard), Recommended for low latency: 480",
+        "Audio buffer size in samples. Smaller reduces latency but costs CPU. Default: 24000, recommended: 480",
         () => TurboAudioStreamConfig.DefaultBufferSize
     );
 
     [AutoRegisterConfigKey]
     private static readonly ModConfigurationKey<OpusApplicationType> OpusApplicationTypeKey = new(
         "ApplicationType",
-        "Opus encoder application type. Audio (2049): High quality, VoIP (2048): Voice optimized, RestrictedLowDelay (2051): Lowest latency. Default: Audio, Recommended for low latency: RestrictedLowDelay",
+        "Opus encoder mode: Audio (high quality), VoIP (voice), RestrictedLowDelay (lowest latency). Default: Audio, recommended: RestrictedLowDelay",
         () => TurboAudioStreamConfig.DefaultApplicationType
     );
 
     [AutoRegisterConfigKey]
     private static readonly ModConfigurationKey<Delay> EncoderDelayKey = new(
         "EncoderDelay",
-        "Opus encoder frame delay. Controls the frame size and latency trade-off. Delay2dot5ms (2.5ms): Ultra-low latency, Delay5ms (5ms): Very low latency, Delay10ms (10ms): Low latency, Delay20ms (20ms): Standard (default), Delay40ms (40ms): Higher quality, Delay60ms (60ms): Highest quality. Default: Delay20ms, Recommended for low latency: Delay2dot5ms",
+        "Opus frame delay for latency vs. quality (Delay2dot5ms–Delay60ms). Default: Delay20ms, recommended: Delay2dot5ms",
         () => TurboAudioStreamConfig.DefaultEncoderDelay
     );
 
