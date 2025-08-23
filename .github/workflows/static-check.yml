@@ -23,5 +23,5 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '9.0.x'
-      - name: Run dotnet format (verify)
-        run: dotnet format --verify-no-changes
+      - name: Run dotnet format whitespace (verify)
+        run: dotnet format whitespace --verify-no-changes
