@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <NoWarn>NU1603</NoWarn>
+    </PropertyGroup>
+    <ItemGroup>
+        <!-- MonkeyLoader GamePack for Resonite (provides Shim assemblies) -->
+        <PackageReference Include="MonkeyLoader.GamePacks.Resonite" />
+
+        <!-- Direct references to actual Resonite assemblies for type resolution -->
+        <Reference Include="FrooxEngine">
+            <HintPath>$(ResoniteManagedPath)FrooxEngine.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Elements.Core">
+            <HintPath>$(ResoniteManagedPath)Elements.Core.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Elements.Assets">
+            <HintPath>$(ResoniteManagedPath)Elements.Assets.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="POpusCodec">
+            <HintPath>$(ResoniteManagedPath)POpusCodec.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+
+        <!-- Update pattern for any other Resonite assemblies -->
+        <Reference Update="Resonite.*">
+            <HintPath>$(ResoniteManagedPath)%(Filename).dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+    </ItemGroup>
+</Project>

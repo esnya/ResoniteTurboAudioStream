@@ -58,11 +58,15 @@ Configuration changes take effect immediately without requiring a restart.
 ### Installation for Development
 
 1. Clone this repository
-2. Run `dotnet tool restore` to install local tools (e.g., csharpier).
-3. Set up your Resonite installation path:
+2. Set up your Resonite installation path:
    - The project will automatically detect common Steam installation paths
    - Alternatively, set the `ResonitePath` property when building: `dotnet build -p:ResonitePath="Path\To\Your\Resonite"`
-4. Build the project: `dotnet build`
+3. Build the project: `dotnet build`
+
+Optional: enforce formatting locally
+
+- Check formatting: `dotnet format --verify-no-changes`
+- Apply formatting: `dotnet format`
 
 ### Install to `rml_mods` Directory (and `rml_mods/HotReloadMods`)
 

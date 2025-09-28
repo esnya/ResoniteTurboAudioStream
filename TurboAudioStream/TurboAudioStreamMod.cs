@@ -18,15 +18,21 @@ public sealed class TurboAudioStreamMod : ResoniteMod
     private static readonly Assembly Assembly = typeof(TurboAudioStreamMod).Assembly;
 
     /// <inheritdoc />
-    public override string Name => Assembly.GetCustomAttribute<AssemblyTitleAttribute>().Title;
+    public override string Name =>
+        Assembly.GetCustomAttribute<AssemblyTitleAttribute>()?.Title
+        ?? Assembly.GetName().Name
+        ?? string.Empty;
 
     /// <inheritdoc />
     public override string Author =>
-        Assembly.GetCustomAttribute<AssemblyCompanyAttribute>().Company;
+        Assembly.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company
+        ?? string.Empty;
 
     /// <inheritdoc />
     public override string Version =>
-        Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+        Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
+        ?? Assembly.GetName().Version?.ToString()
+        ?? "0.0.0";
 
     /// <inheritdoc />
     public override string Link =>

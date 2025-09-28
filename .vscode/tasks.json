@@ -1,0 +1,18 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "format:verify",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"format",
+				"--verify-no-changes"
+			],
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"group": "build"
+		}
+	]
+}
