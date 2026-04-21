@@ -10,7 +10,7 @@
   <Target
     Name="Install"
     Inputs="$(TargetPath)"
-    Outputs="$(ResoniteModsPath)\$(TargetFileName);$(ResoniteHotReloadPath)\$(TargetFileName)"
+    Outputs="$(ResoniteModsPath)/$(TargetFileName);$(ResoniteHotReloadPath)/$(TargetFileName)"
   >
     <!-- Check if build output exists -->
     <Error

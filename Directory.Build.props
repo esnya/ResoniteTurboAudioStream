@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <!-- Common Package Properties - Update these when creating a new mod from this template -->
   <PropertyGroup>
     <Authors>esnya</Authors>
     <Description>A Resonite mod created with TurboAudioStream</Description>
@@ -13,21 +12,18 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <Version>0.1.2</Version>
   </PropertyGroup>
-  <!-- Common Build Properties -->
+
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <Deterministic>true</Deterministic>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-    <!-- Debug/Release specific settings -->
     <DebugType Condition="'$(Configuration)'=='Debug'">embedded</DebugType>
     <DebugType Condition="'$(Configuration)'=='Release'">pdbonly</DebugType>
     <Optimize Condition="'$(Configuration)'=='Release'">true</Optimize>
-    <!-- Assembly Metadata -->
     <AssemblyTitle>$(MSBuildProjectName)</AssemblyTitle>
     <Product>$(MSBuildProjectName)</Product>
-    <!-- Code Quality -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
@@ -36,11 +32,10 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <WarningsNotAsErrors>NU1701</WarningsNotAsErrors>
-    <!-- Allow .NET Framework dependencies -->
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
-  <!-- Resonite Path Discovery -->
+
   <PropertyGroup Condition="'$(ResonitePath)'==''">
     <ResonitePath>$(MSBuildThisFileDirectory)Resonite/</ResonitePath>
     <ResonitePath Condition="Exists('C:\Program Files (x86)\Steam\steamapps\common\Resonite\')"
@@ -50,21 +45,18 @@
       >$(HOME)/.steam/steam/steamapps/common/Resonite/</ResonitePath
     >
   </PropertyGroup>
-  <!-- Normalize ResonitePath -->
+
   <PropertyGroup>
     <ResonitePath>$([MSBuild]::EnsureTrailingSlash('$(ResonitePath)'))</ResonitePath>
-  </PropertyGroup>
-  <!-- Derived Resonite Paths -->
-  <PropertyGroup>
+    <ResoniteManagedPath>$(ResonitePath)Resonite_Data\Managed\</ResoniteManagedPath>
     <ResoniteModsPath>$(ResonitePath)rml_mods</ResoniteModsPath>
-    <ResoniteHotReloadPath>$(ResonitePath)rml_mods\HotReloadMods</ResoniteHotReloadPath>
-    <ResoniteLibsPath>$(ResonitePath)rml_libs\</ResoniteLibsPath>
+    <ResoniteHotReloadPath>$(ResonitePath)rml_mods/HotReloadMods</ResoniteHotReloadPath>
+    <ResoniteLibsPath>$(ResonitePath)rml_libs/</ResoniteLibsPath>
   </PropertyGroup>
-  <!-- Common Resonite References -->
+
   <ItemGroup>
-    <!-- Core Resonite Mod Dependencies -->
     <Reference Include="ResoniteModLoader">
-      <HintPath>$(ResonitePath)Libraries\ResoniteModLoader.dll</HintPath>
+      <HintPath>$(ResonitePath)Libraries/ResoniteModLoader.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="HarmonyLib">
@@ -74,32 +66,50 @@
       >
       <Private>false</Private>
     </Reference>
-    <!-- Core Resonite Engine References (Managed) -->
     <Reference Include="FrooxEngine">
-      <HintPath>$(ResonitePath)FrooxEngine.dll</HintPath>
+      <HintPath Condition="Exists('$(ResoniteManagedPath)FrooxEngine.dll')"
+        >$(ResoniteManagedPath)FrooxEngine.dll</HintPath
+      >
+      <HintPath Condition="!Exists('$(ResoniteManagedPath)FrooxEngine.dll') and Exists('$(ResonitePath)FrooxEngine.dll')"
+        >$(ResonitePath)FrooxEngine.dll</HintPath
+      >
       <Private>false</Private>
     </Reference>
     <Reference Include="Elements.Core">
-      <HintPath>$(ResonitePath)Elements.Core.dll</HintPath>
+      <HintPath Condition="Exists('$(ResoniteManagedPath)Elements.Core.dll')"
+        >$(ResoniteManagedPath)Elements.Core.dll</HintPath
+      >
+      <HintPath Condition="!Exists('$(ResoniteManagedPath)Elements.Core.dll') and Exists('$(ResonitePath)Elements.Core.dll')"
+        >$(ResonitePath)Elements.Core.dll</HintPath
+      >
       <Private>false</Private>
     </Reference>
     <Reference Include="Elements.Assets">
-      <HintPath>$(ResonitePath)Elements.Assets.dll</HintPath>
+      <HintPath Condition="Exists('$(ResoniteManagedPath)Elements.Assets.dll')"
+        >$(ResoniteManagedPath)Elements.Assets.dll</HintPath
+      >
+      <HintPath Condition="!Exists('$(ResoniteManagedPath)Elements.Assets.dll') and Exists('$(ResonitePath)Elements.Assets.dll')"
+        >$(ResonitePath)Elements.Assets.dll</HintPath
+      >
       <Private>false</Private>
     </Reference>
     <Reference Include="POpusCodec">
-      <HintPath>$(ResonitePath)POpusCodec.dll</HintPath>
+      <HintPath Condition="Exists('$(ResoniteManagedPath)POpusCodec.dll')"
+        >$(ResoniteManagedPath)POpusCodec.dll</HintPath
+      >
+      <HintPath Condition="!Exists('$(ResoniteManagedPath)POpusCodec.dll') and Exists('$(ResonitePath)POpusCodec.dll')"
+        >$(ResonitePath)POpusCodec.dll</HintPath
+      >
       <Private>false</Private>
     </Reference>
-    <!-- Debug-only references -->
     <Reference Include="ResoniteHotReloadLib" Condition="'$(Configuration)'=='Debug'">
       <HintPath>$(ResoniteLibsPath)ResoniteHotReloadLib.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>
-  <!-- Common Items -->
+
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory).github\**\*" LinkBase=".github" />
-    <EditorConfigFiles Remove="$(MSBuildProjectDirectory)**\*.editorconfig" />
+    <EditorConfigFiles Remove="$(MSBuildProjectDirectory)**/*.editorconfig" />
   </ItemGroup>
 </Project>
