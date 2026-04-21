@@ -1,7 +1,6 @@
-name: CI
+name: Release CI
 
 on:
-  pull_request:
   push:
     branches:
       - main
@@ -35,7 +34,6 @@ jobs:
         run: dotnet format whitespace --verify-no-changes
 
   build:
-    if: github.event_name != 'pull_request'
     runs-on: windows-latest
     needs: formatting
     steps:
