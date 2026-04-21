@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using FrooxEngine;
 using HarmonyLib;
 
@@ -29,13 +29,9 @@ internal static class SyncController_AsyncStreamDecodeAndDispose_DropLog_Patch
 
         try
         {
-            IStream stream = user.GetStream(streamId);
-            if (stream is null)
-            {
-                StreamDropLogHelper.LogAsyncDrop("missing-user-or-stream", message, user);
-            }
+            _ = user.GetStream(streamId);
         }
-        catch
+        catch (KeyNotFoundException)
         {
             StreamDropLogHelper.LogAsyncDrop("missing-user-or-stream", message, user);
         }

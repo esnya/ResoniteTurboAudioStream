@@ -21,7 +21,10 @@ internal static class SyncController_ApplyStreams_DropLog_Patch
             return;
         }
 
-        if (message.StreamGroup == ushort.MaxValue || user.StreamConfigurationVersion != message.StreamStateVersion)
+        if (
+            message.StreamGroup == ushort.MaxValue
+            || user.StreamConfigurationVersion != message.StreamStateVersion
+        )
         {
             string reason =
                 user.StreamConfigurationVersion != message.StreamStateVersion

@@ -18,7 +18,12 @@ internal static class AudioStreamInterface_OutgoingTuning_Patch
     {
         try
         {
-            if (!AudioPatchPredicates.IsLocalSenderOpusStream(source, out OpusStream<StereoSample>? stream))
+            if (
+                !AudioPatchPredicates.IsLocalSenderOpusStream(
+                    source,
+                    out OpusStream<StereoSample>? stream
+                )
+            )
             {
                 return;
             }

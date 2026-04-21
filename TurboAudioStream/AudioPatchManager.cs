@@ -62,14 +62,14 @@ internal static class AudioPatchManager
             {
                 foreach (Type patchType in registration.PatchTypes)
                 {
-                    registration.Harmony.CreateClassProcessor(patchType).Patch();
+                    _ = registration.Harmony.CreateClassProcessor(patchType).Patch();
                 }
 
                 registration.IsPatched = true;
             }
             else if (!shouldBeEnabled && registration.IsPatched)
             {
-                registration.Harmony.UnpatchSelf();
+                registration.Harmony.UnpatchAll(registration.Harmony.Id);
                 registration.IsPatched = false;
             }
         }
@@ -79,7 +79,7 @@ internal static class AudioPatchManager
     {
         foreach ((_, PatchRegistration registration) in Registrations)
         {
-            registration.Harmony.UnpatchSelf();
+            registration.Harmony.UnpatchAll(registration.Harmony.Id);
             registration.IsPatched = false;
         }
     }

@@ -29,12 +29,20 @@ internal static class StreamDropLogHelper
 
         try
         {
-            BitReaderStream stream = new(message.GetData());
-            BitBinaryReaderX reader = new(stream);
+            using BitReaderStream stream = new(message.GetData());
+            using BitBinaryReaderX reader = new(stream);
             streamId = reader.Read7BitEncoded();
             return true;
         }
-        catch
+        catch (ArgumentException)
+        {
+            return false;
+        }
+        catch (InvalidOperationException)
+        {
+            return false;
+        }
+        catch (System.IO.EndOfStreamException)
         {
             return false;
         }

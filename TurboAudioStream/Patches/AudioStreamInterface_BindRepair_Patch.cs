@@ -1,4 +1,3 @@
-using Elements.Assets;
 using FrooxEngine;
 using HarmonyLib;
 
@@ -20,17 +19,23 @@ internal static class AudioStreamInterface_BindRepair_Patch
             return;
         }
 
-        if (!AudioBindingRepairHelper.TryRepair(__instance, source, out AudioStreamController? controller))
+        if (
+            !AudioBindingRepairHelper.TryRepair(
+                __instance,
+                source,
+                out AudioStreamController? controller
+            )
+        )
         {
             return;
         }
 
-        User? user = (source as IAudioStream)?.User;
+        User? user = source.User;
         PatchTriggerLogger.Log(
             AudioPatchFeature.BindRepair,
             $"repaired-interface-bind bitrate={bitrate} volume={volume:0.###} spatialize={spatialize}",
             user,
-            source as IWorldElement,
+            source,
             controller?.Slot
         );
     }

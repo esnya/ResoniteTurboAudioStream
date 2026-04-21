@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Concurrent;
-using Elements.Core;
 using FrooxEngine;
 using ResoniteModLoader;
 
@@ -34,10 +33,7 @@ internal static class PatchTriggerLogger
             Math.Max(0f, TurboAudioStreamConfig.PatchLogCooldownSeconds)
         );
 
-        if (
-            LastLogTimes.TryGetValue(key, out DateTime lastLogTime)
-            && now - lastLogTime < cooldown
-        )
+        if (LastLogTimes.TryGetValue(key, out DateTime lastLogTime) && now - lastLogTime < cooldown)
         {
             return;
         }

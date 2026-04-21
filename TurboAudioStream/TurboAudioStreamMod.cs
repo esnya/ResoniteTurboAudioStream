@@ -24,21 +24,20 @@ public sealed class TurboAudioStreamMod : ResoniteMod
 
     /// <inheritdoc />
     public override string Author =>
-        Assembly.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company
-        ?? string.Empty;
+        Assembly.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company ?? string.Empty;
 
     /// <inheritdoc />
     public override string Version =>
         Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
-        ?? Assembly.GetName().Version?.ToString()
-        ?? "0.0.0";
+        ?? Assembly.GetName().Version?.ToString() ?? "0.0.0";
 
     /// <inheritdoc />
     public override string Link =>
         Assembly
             .GetCustomAttributes<AssemblyMetadataAttribute>()
             .FirstOrDefault(meta => meta.Key == "RepositoryUrl")
-            ?.Value ?? string.Empty;
+            ?.Value
+        ?? string.Empty;
 
     private static ModConfiguration? configuration;
 
@@ -164,7 +163,9 @@ public sealed class TurboAudioStreamMod : ResoniteMod
         TurboAudioStreamConfig.BufferSize = config.GetValue(BufferSizeKey);
         TurboAudioStreamConfig.ApplicationType = config.GetValue(OpusApplicationTypeKey);
         TurboAudioStreamConfig.EncoderDelay = config.GetValue(EncoderDelayKey);
-        TurboAudioStreamConfig.EnableOutgoingTuningPatch = config.GetValue(EnableOutgoingTuningPatchKey);
+        TurboAudioStreamConfig.EnableOutgoingTuningPatch = config.GetValue(
+            EnableOutgoingTuningPatchKey
+        );
         TurboAudioStreamConfig.EnableBindRepairPatch = config.GetValue(EnableBindRepairPatchKey);
         TurboAudioStreamConfig.EnableAsyncFreshnessGuardPatch = config.GetValue(
             EnableAsyncFreshnessGuardPatchKey
@@ -178,11 +179,15 @@ public sealed class TurboAudioStreamMod : ResoniteMod
         TurboAudioStreamConfig.EnablePatchTriggerLogging = config.GetValue(
             EnablePatchTriggerLoggingKey
         );
-        TurboAudioStreamConfig.PatchLogCooldownSeconds = config.GetValue(PatchLogCooldownSecondsKey);
+        TurboAudioStreamConfig.PatchLogCooldownSeconds = config.GetValue(
+            PatchLogCooldownSecondsKey
+        );
         TurboAudioStreamConfig.ReceiverMinimumBufferDelayFloor = config.GetValue(
             ReceiverMinimumBufferDelayFloorKey
         );
-        TurboAudioStreamConfig.ReceiverBufferSizeFloor = config.GetValue(ReceiverBufferSizeFloorKey);
+        TurboAudioStreamConfig.ReceiverBufferSizeFloor = config.GetValue(
+            ReceiverBufferSizeFloorKey
+        );
         AudioPatchManager.Synchronize();
     }
 

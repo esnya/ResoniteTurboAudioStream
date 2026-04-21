@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <Deterministic>true</Deterministic>
@@ -70,7 +70,8 @@
       <HintPath Condition="Exists('$(ResoniteManagedPath)FrooxEngine.dll')"
         >$(ResoniteManagedPath)FrooxEngine.dll</HintPath
       >
-      <HintPath Condition="!Exists('$(ResoniteManagedPath)FrooxEngine.dll') and Exists('$(ResonitePath)FrooxEngine.dll')"
+      <HintPath
+        Condition="!Exists('$(ResoniteManagedPath)FrooxEngine.dll') and Exists('$(ResonitePath)FrooxEngine.dll')"
         >$(ResonitePath)FrooxEngine.dll</HintPath
       >
       <Private>false</Private>
@@ -79,7 +80,8 @@
       <HintPath Condition="Exists('$(ResoniteManagedPath)Elements.Core.dll')"
         >$(ResoniteManagedPath)Elements.Core.dll</HintPath
       >
-      <HintPath Condition="!Exists('$(ResoniteManagedPath)Elements.Core.dll') and Exists('$(ResonitePath)Elements.Core.dll')"
+      <HintPath
+        Condition="!Exists('$(ResoniteManagedPath)Elements.Core.dll') and Exists('$(ResonitePath)Elements.Core.dll')"
         >$(ResonitePath)Elements.Core.dll</HintPath
       >
       <Private>false</Private>
@@ -88,7 +90,8 @@
       <HintPath Condition="Exists('$(ResoniteManagedPath)Elements.Assets.dll')"
         >$(ResoniteManagedPath)Elements.Assets.dll</HintPath
       >
-      <HintPath Condition="!Exists('$(ResoniteManagedPath)Elements.Assets.dll') and Exists('$(ResonitePath)Elements.Assets.dll')"
+      <HintPath
+        Condition="!Exists('$(ResoniteManagedPath)Elements.Assets.dll') and Exists('$(ResonitePath)Elements.Assets.dll')"
         >$(ResonitePath)Elements.Assets.dll</HintPath
       >
       <Private>false</Private>
@@ -97,8 +100,19 @@
       <HintPath Condition="Exists('$(ResoniteManagedPath)POpusCodec.dll')"
         >$(ResoniteManagedPath)POpusCodec.dll</HintPath
       >
-      <HintPath Condition="!Exists('$(ResoniteManagedPath)POpusCodec.dll') and Exists('$(ResonitePath)POpusCodec.dll')"
+      <HintPath
+        Condition="!Exists('$(ResoniteManagedPath)POpusCodec.dll') and Exists('$(ResonitePath)POpusCodec.dll')"
         >$(ResonitePath)POpusCodec.dll</HintPath
+      >
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Awwdio">
+      <HintPath Condition="Exists('$(ResoniteManagedPath)Awwdio.dll')"
+        >$(ResoniteManagedPath)Awwdio.dll</HintPath
+      >
+      <HintPath
+        Condition="!Exists('$(ResoniteManagedPath)Awwdio.dll') and Exists('$(ResonitePath)Awwdio.dll')"
+        >$(ResonitePath)Awwdio.dll</HintPath
       >
       <Private>false</Private>
     </Reference>

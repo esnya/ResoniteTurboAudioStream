@@ -5,7 +5,10 @@ namespace TurboAudioStream;
 
 internal static class AudioPatchPredicates
 {
-    public static bool IsLocalSenderOpusStream(IAudioStream source, out OpusStream<StereoSample>? stream)
+    public static bool IsLocalSenderOpusStream(
+        IAudioStream source,
+        out OpusStream<StereoSample>? stream
+    )
     {
         stream = source as OpusStream<StereoSample>;
         return stream?.User?.IsLocalUser == true;

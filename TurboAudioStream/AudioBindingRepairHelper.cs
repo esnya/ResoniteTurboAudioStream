@@ -25,7 +25,10 @@ internal static class AudioBindingRepairHelper
             repaired = true;
         }
 
-        if (source is OpusStream<StereoSample> opusStream && audioStreamInterface.Bitrate.Target is null)
+        if (
+            source is OpusStream<StereoSample> opusStream
+            && audioStreamInterface.Bitrate.Target is null
+        )
         {
             audioStreamInterface.Bitrate.Target = opusStream.BitRate;
             repaired = true;

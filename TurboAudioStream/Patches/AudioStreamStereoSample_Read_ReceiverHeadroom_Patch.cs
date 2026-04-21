@@ -9,9 +9,20 @@ using HarmonyLib;
 
 namespace TurboAudioStream.Patches;
 
+[HarmonyPatch]
 internal static class AudioStreamStereoSample_Read_ReceiverHeadroom_Patch
 {
-    private static MethodBase TargetMethod()
+    private static readonly Action<AudioStream<StereoSample>, int> UpdateReadSampleCount =
+        AccessTools.MethodDelegate<Action<AudioStream<StereoSample>, int>>(
+            AccessTools.DeclaredMethod(typeof(AudioStream<StereoSample>), "UpdateReadSampleCount")
+                ?? throw new MissingMethodException(
+                    typeof(AudioStream<StereoSample>).FullName,
+                    "UpdateReadSampleCount"
+                )
+        );
+
+    [HarmonyTargetMethod]
+    internal static MethodInfo TargetMethod()
     {
         Type closedType = typeof(AudioStream<>).MakeGenericType(typeof(StereoSample));
         MethodInfo method = closedType
@@ -34,7 +45,14 @@ internal static class AudioStreamStereoSample_Read_ReceiverHeadroom_Patch
         ref int ____missedSamples
     )
     {
-        if (!AudioPatchPredicates.IsRemoteReceiverOpusStream(__instance, out OpusStream<StereoSample>? opusStream))
+        _ = simulator;
+
+        if (
+            !AudioPatchPredicates.IsRemoteReceiverOpusStream(
+                __instance,
+                out OpusStream<StereoSample>? opusStream
+            )
+        )
         {
             return true;
         }
@@ -42,7 +60,7 @@ internal static class AudioStreamStereoSample_Read_ReceiverHeadroom_Patch
         Engine? engine = __instance.Engine;
         if (__instance.IsDisposed || engine is null || __instance.User.IsAudioLocallyBlocked)
         {
-            buffer.Fill(default);
+            buffer.Clear();
             return false;
         }
 
@@ -63,10 +81,12 @@ internal static class AudioStreamStereoSample_Read_ReceiverHeadroom_Patch
         {
             if (___audioBuffer == null || ___audioBuffer.Length != effectiveTargetBufferSize)
             {
-                ___audioBuffer = new CircularAudioBuffer<StereoSample>(
-                    effectiveTargetBufferSize,
-                    ___audioBuffer
-                );
+                ___audioBuffer = ___audioBuffer is null
+                    ? new CircularAudioBuffer<StereoSample>(effectiveTargetBufferSize)
+                    : new CircularAudioBuffer<StereoSample>(
+                        effectiveTargetBufferSize,
+                        ___audioBuffer
+                    );
             }
 
             double dspTime = engine.AudioSystem.DSPTime;
@@ -74,7 +94,6 @@ internal static class AudioStreamStereoSample_Read_ReceiverHeadroom_Patch
                 sampleRate * effectiveMinimumBufferDelay
             );
             bool isNewFrame = ____lastAudioTime != dspTime;
-            double elapsedSeconds = ____lastAudioTime >= 0.0 ? dspTime - ____lastAudioTime : -1.0;
             ____lastAudioTime = dspTime;
 
             if (isNewFrame)
@@ -96,9 +115,9 @@ internal static class AudioStreamStereoSample_Read_ReceiverHeadroom_Patch
 
             if (____activeReading || hasEnoughBufferedSamples)
             {
-                __instance.UpdateReadSampleCount(buffer.Length);
+                UpdateReadSampleCount(__instance, buffer.Length);
                 int readSamples = ___audioBuffer.Read(buffer, ref globalPosition);
-                buffer.Slice(readSamples).Fill(default);
+                buffer[readSamples..].Clear();
                 ____missedSamples += buffer.Length - readSamples;
                 ____lastReadSamples = readSamples;
 
@@ -109,7 +128,7 @@ internal static class AudioStreamStereoSample_Read_ReceiverHeadroom_Patch
             }
             else
             {
-                buffer.Fill(default);
+                buffer.Clear();
             }
 
             if (!hasEnoughBufferedSamples)
