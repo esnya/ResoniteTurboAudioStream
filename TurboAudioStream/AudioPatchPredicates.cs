@@ -20,6 +20,6 @@ internal static class AudioPatchPredicates
     )
     {
         opusStream = stream as OpusStream<StereoSample>;
-        return opusStream?.User?.IsLocalUser != true;
+        return opusStream is not null && opusStream.User?.IsLocalUser != true;
     }
 }
