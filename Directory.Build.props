@@ -56,7 +56,6 @@
   </PropertyGroup>
   <!-- Derived Resonite Paths -->
   <PropertyGroup>
-    <ResoniteManagedPath>$(ResonitePath)Resonite_Data\Managed\</ResoniteManagedPath>
     <ResoniteModsPath>$(ResonitePath)rml_mods</ResoniteModsPath>
     <ResoniteHotReloadPath>$(ResonitePath)rml_mods\HotReloadMods</ResoniteHotReloadPath>
     <ResoniteLibsPath>$(ResonitePath)rml_libs\</ResoniteLibsPath>
@@ -77,19 +76,19 @@
     </Reference>
     <!-- Core Resonite Engine References (Managed) -->
     <Reference Include="FrooxEngine">
-      <HintPath>$(ResoniteManagedPath)FrooxEngine.dll</HintPath>
+      <HintPath>$(ResonitePath)FrooxEngine.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Elements.Core">
-      <HintPath>$(ResoniteManagedPath)Elements.Core.dll</HintPath>
+      <HintPath>$(ResonitePath)Elements.Core.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Elements.Assets">
-      <HintPath>$(ResoniteManagedPath)Elements.Assets.dll</HintPath>
+      <HintPath>$(ResonitePath)Elements.Assets.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="POpusCodec">
-      <HintPath>$(ResoniteManagedPath)POpusCodec.dll</HintPath>
+      <HintPath>$(ResonitePath)POpusCodec.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <!-- Debug-only references -->
