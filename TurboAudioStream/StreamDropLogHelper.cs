@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Elements.Core;
 using FrooxEngine;
 
@@ -23,6 +24,11 @@ internal static class StreamDropLogHelper
         );
     }
 
+    [SuppressMessage(
+        "Design",
+        "CA1031:Do not catch general exception types",
+        Justification = "Drop-log parsing must fail open so malformed async stream payloads do not break stream processing."
+    )]
     public static bool TryReadAsyncStreamId(StreamMessage message, out ulong streamId)
     {
         streamId = 0;
@@ -34,15 +40,7 @@ internal static class StreamDropLogHelper
             streamId = reader.Read7BitEncoded();
             return true;
         }
-        catch (ArgumentException)
-        {
-            return false;
-        }
-        catch (InvalidOperationException)
-        {
-            return false;
-        }
-        catch (System.IO.EndOfStreamException)
+        catch (Exception)
         {
             return false;
         }
