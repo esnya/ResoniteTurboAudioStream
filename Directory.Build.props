@@ -106,16 +106,6 @@
       >
       <Private>false</Private>
     </Reference>
-    <Reference Include="Awwdio">
-      <HintPath Condition="Exists('$(ResoniteManagedPath)Awwdio.dll')"
-        >$(ResoniteManagedPath)Awwdio.dll</HintPath
-      >
-      <HintPath
-        Condition="!Exists('$(ResoniteManagedPath)Awwdio.dll') and Exists('$(ResonitePath)Awwdio.dll')"
-        >$(ResonitePath)Awwdio.dll</HintPath
-      >
-      <Private>false</Private>
-    </Reference>
     <Reference Include="ResoniteHotReloadLib" Condition="'$(Configuration)'=='Debug'">
       <HintPath>$(ResoniteLibsPath)ResoniteHotReloadLib.dll</HintPath>
       <Private>false</Private>
