@@ -54,7 +54,7 @@ public sealed class TurboAudioStreamMod : ResoniteMod
     [AutoRegisterConfigKey]
     private static readonly ModConfigurationKey<int> BufferSizeKey = new(
         "BufferSize",
-        "Buffer capacity in samples. Higher values improve stability; lower values reduce memory. NOTICE: Does not affect latency. Default: 24000",
+        "Legacy audio buffer capacity key. Preserved for compatibility but not applied in 0.2.0. Default: 24000",
         () => TurboAudioStreamConfig.DefaultBufferSize
     );
 
