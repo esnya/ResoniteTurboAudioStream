@@ -47,6 +47,7 @@ Configuration changes do not require restarting Resonite, but active audio strea
 1. Launch the game. If you want to check that the mod is working you can check your Resonite logs.
 
 Version 0.2.0 is built and verified against Resonite `2026.8.27.1094`.
+Release builds use the matching locked `Resonite.GameLibs` package; local builds prefer an installed Resonite copy when one is available.
 
 ## Development
 
