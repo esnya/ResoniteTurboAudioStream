@@ -10,11 +10,11 @@
     <Copyright>Copyright (c) 2025 $(Authors)</Copyright>
     <PackageTags>Resonite,Mod,ResoniteModLoader,Latency,Audio</PackageTags>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <Version>0.1.2</Version>
+    <Version>0.2.0</Version>
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <Deterministic>true</Deterministic>
@@ -32,6 +32,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <WarningsNotAsErrors>NU1701</WarningsNotAsErrors>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
@@ -52,6 +53,8 @@
     <ResoniteModsPath>$(ResonitePath)rml_mods</ResoniteModsPath>
     <ResoniteHotReloadPath>$(ResonitePath)rml_mods/HotReloadMods</ResoniteHotReloadPath>
     <ResoniteLibsPath>$(ResonitePath)rml_libs/</ResoniteLibsPath>
+    <FrooxEnginePresent Condition="Exists('$(ResoniteManagedPath)FrooxEngine.dll') or Exists('$(ResonitePath)FrooxEngine.dll')">true</FrooxEnginePresent>
+    <FrooxEnginePresent Condition="'$(FrooxEnginePresent)'==''">false</FrooxEnginePresent>
   </PropertyGroup>
 
   <ItemGroup>
@@ -66,38 +69,42 @@
       >
       <Private>false</Private>
     </Reference>
-    <Reference Include="FrooxEngine">
+    <Reference Include="FrooxEngine" Condition="'$(FrooxEnginePresent)'=='true'">
       <HintPath Condition="Exists('$(ResoniteManagedPath)FrooxEngine.dll')"
         >$(ResoniteManagedPath)FrooxEngine.dll</HintPath
       >
-      <HintPath Condition="!Exists('$(ResoniteManagedPath)FrooxEngine.dll') and Exists('$(ResonitePath)FrooxEngine.dll')"
+      <HintPath
+        Condition="!Exists('$(ResoniteManagedPath)FrooxEngine.dll') and Exists('$(ResonitePath)FrooxEngine.dll')"
         >$(ResonitePath)FrooxEngine.dll</HintPath
       >
       <Private>false</Private>
     </Reference>
-    <Reference Include="Elements.Core">
+    <Reference Include="Elements.Core" Condition="'$(FrooxEnginePresent)'=='true'">
       <HintPath Condition="Exists('$(ResoniteManagedPath)Elements.Core.dll')"
         >$(ResoniteManagedPath)Elements.Core.dll</HintPath
       >
-      <HintPath Condition="!Exists('$(ResoniteManagedPath)Elements.Core.dll') and Exists('$(ResonitePath)Elements.Core.dll')"
+      <HintPath
+        Condition="!Exists('$(ResoniteManagedPath)Elements.Core.dll') and Exists('$(ResonitePath)Elements.Core.dll')"
         >$(ResonitePath)Elements.Core.dll</HintPath
       >
       <Private>false</Private>
     </Reference>
-    <Reference Include="Elements.Assets">
+    <Reference Include="Elements.Assets" Condition="'$(FrooxEnginePresent)'=='true'">
       <HintPath Condition="Exists('$(ResoniteManagedPath)Elements.Assets.dll')"
         >$(ResoniteManagedPath)Elements.Assets.dll</HintPath
       >
-      <HintPath Condition="!Exists('$(ResoniteManagedPath)Elements.Assets.dll') and Exists('$(ResonitePath)Elements.Assets.dll')"
+      <HintPath
+        Condition="!Exists('$(ResoniteManagedPath)Elements.Assets.dll') and Exists('$(ResonitePath)Elements.Assets.dll')"
         >$(ResonitePath)Elements.Assets.dll</HintPath
       >
       <Private>false</Private>
     </Reference>
-    <Reference Include="POpusCodec">
+    <Reference Include="POpusCodec" Condition="'$(FrooxEnginePresent)'=='true'">
       <HintPath Condition="Exists('$(ResoniteManagedPath)POpusCodec.dll')"
         >$(ResoniteManagedPath)POpusCodec.dll</HintPath
       >
-      <HintPath Condition="!Exists('$(ResoniteManagedPath)POpusCodec.dll') and Exists('$(ResonitePath)POpusCodec.dll')"
+      <HintPath
+        Condition="!Exists('$(ResoniteManagedPath)POpusCodec.dll') and Exists('$(ResonitePath)POpusCodec.dll')"
         >$(ResonitePath)POpusCodec.dll</HintPath
       >
       <Private>false</Private>
@@ -106,6 +113,13 @@
       <HintPath>$(ResoniteLibsPath)ResoniteHotReloadLib.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <PackageReference Include="Resonite.GameLibs" Version="2026.8.27.1094">
+      <ExcludeAssets Condition="'$(FrooxEnginePresent)'=='true'">compile;runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="YellowDogMan.POpusCodec" Version="0.3.1" PrivateAssets="all">
+      <IncludeAssets Condition="'$(FrooxEnginePresent)'!='true'">compile</IncludeAssets>
+      <ExcludeAssets Condition="'$(FrooxEnginePresent)'=='true'">compile;runtime</ExcludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

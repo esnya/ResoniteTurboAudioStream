@@ -1,6 +1,9 @@
 name: Release CI
 
 on:
+  pull_request:
+    branches:
+      - master
   push:
     branches:
       - main
@@ -30,6 +33,16 @@ jobs:
         with:
           dotnet-version: 10.0.x
 
+      - name: Verify tag matches project version
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: pwsh
+        run: |
+          [xml]$props = Get-Content -Raw .\Directory.Build.props
+          $version = $props.Project.PropertyGroup.Version | Where-Object { $_ } | Select-Object -First 1
+          if ("v$version" -ne "${{ github.ref_name }}") {
+            throw "Tag ${{ github.ref_name }} does not match project version v$version."
+          }
+
       - name: Verify whitespace formatting
         run: dotnet format whitespace --verify-no-changes
 
@@ -47,14 +60,7 @@ jobs:
         with:
           dotnet-version: 10.0.x
 
-      - name: Setup Resonite environment
-        uses: resonite-modding-group/setup-resonite-env-action@v0.1.0
-        with:
-          steam-user: ${{ secrets.STEAMUSER }}
-          steam-password: ${{ secrets.STEAMPASS }}
-          resonite-path: ${{ env.RESONITE_INSTALL_DIR }}
-
-      - name: Install ResoniteModLoader binaries
+      - name: Prepare build references
         shell: pwsh
         run: |
           New-Item -ItemType Directory -Force -Path "$env:RESONITE_INSTALL_DIR\Libraries" | Out-Null
@@ -63,7 +69,7 @@ jobs:
           Invoke-WebRequest -Uri "https://github.com/resonite-modding-group/ResoniteModLoader/releases/latest/download/0Harmony.dll" -OutFile "$env:RESONITE_INSTALL_DIR\rml_libs\0Harmony.dll"
 
       - name: Restore
-        run: dotnet restore .\TurboAudioStream\TurboAudioStream.csproj -p:ResonitePath="${{ env.RESONITE_INSTALL_DIR }}\"
+        run: dotnet restore .\TurboAudioStream\TurboAudioStream.csproj --locked-mode -p:ResonitePath="${{ env.RESONITE_INSTALL_DIR }}\"
 
       - name: Build
         run: dotnet build .\TurboAudioStream\TurboAudioStream.csproj -c Release --no-restore -p:ResonitePath="${{ env.RESONITE_INSTALL_DIR }}\"

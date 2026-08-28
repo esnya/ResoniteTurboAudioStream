@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net10.0": {
+      "Resonite.GameLibs": {
+        "type": "Direct",
+        "requested": "[2026.8.27.1094, )",
+        "resolved": "2026.8.27.1094",
+        "contentHash": "ArwqFi/iLI7TsBBytfTRnYcAq7H0RFAwnCnEbJFmh33kVE14p8XGD8MwW3V7yFl2C9+Mu/5L9b7mYBUxtmRR3A=="
+      },
+      "YellowDogMan.POpusCodec": {
+        "type": "Direct",
+        "requested": "[0.3.1, )",
+        "resolved": "0.3.1",
+        "contentHash": "Gp4jUYKws3+74jVZxMWzNPrQgjoco4jB28dYfHdnsdRiUeXca/lnTJzUvl1RJSd2uYxf3vA6jIEXFOZe7EFpvQ=="
+      }
+    }
+  }
+}

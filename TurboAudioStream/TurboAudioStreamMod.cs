@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Reflection;
+using HarmonyLib;
 using POpusCodec.Enums;
 using ResoniteModLoader;
 #if DEBUG
@@ -24,23 +25,24 @@ public sealed class TurboAudioStreamMod : ResoniteMod
 
     /// <inheritdoc />
     public override string Author =>
-        Assembly.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company
-        ?? string.Empty;
+        Assembly.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company ?? string.Empty;
 
     /// <inheritdoc />
     public override string Version =>
         Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
-        ?? Assembly.GetName().Version?.ToString()
-        ?? "0.0.0";
+        ?? Assembly.GetName().Version?.ToString() ?? "0.0.0";
 
     /// <inheritdoc />
     public override string Link =>
         Assembly
             .GetCustomAttributes<AssemblyMetadataAttribute>()
             .FirstOrDefault(meta => meta.Key == "RepositoryUrl")
-            ?.Value ?? string.Empty;
+            ?.Value
+        ?? string.Empty;
 
-    private static ModConfiguration? configuration;
+    private static string HarmonyId => $"com.nekometer.esnya.{Assembly.GetName().Name}";
+
+    private static readonly Harmony harmony = new(HarmonyId);
 
     [AutoRegisterConfigKey]
     private static readonly ModConfigurationKey<float> MinimumBufferDelayKey = new(
@@ -52,7 +54,7 @@ public sealed class TurboAudioStreamMod : ResoniteMod
     [AutoRegisterConfigKey]
     private static readonly ModConfigurationKey<int> BufferSizeKey = new(
         "BufferSize",
-        "Buffer capacity in samples. Higher values improve stability; lower values reduce memory. NOTICE: Does not affect latency. Default: 24000",
+        "Legacy audio buffer capacity key. Preserved for compatibility but not applied in 0.2.0. Default: 24000",
         () => TurboAudioStreamConfig.DefaultBufferSize
     );
 
@@ -70,69 +72,6 @@ public sealed class TurboAudioStreamMod : ResoniteMod
         () => TurboAudioStreamConfig.DefaultEncoderDelay
     );
 
-    [AutoRegisterConfigKey]
-    private static readonly ModConfigurationKey<bool> EnableOutgoingTuningPatchKey = new(
-        "EnableOutgoingTuningPatch",
-        "Enable the outgoing Opus tuning patch. Default: true",
-        () => TurboAudioStreamConfig.DefaultEnableOutgoingTuningPatch
-    );
-
-    [AutoRegisterConfigKey]
-    private static readonly ModConfigurationKey<bool> EnableBindRepairPatchKey = new(
-        "EnableBindRepairPatch",
-        "Enable bind repair for AudioStreamInterface -> AudioStreamController.Stream. Default: false",
-        () => TurboAudioStreamConfig.DefaultEnableBindRepairPatch
-    );
-
-    [AutoRegisterConfigKey]
-    private static readonly ModConfigurationKey<bool> EnableAsyncFreshnessGuardPatchKey = new(
-        "EnableAsyncFreshnessGuardPatch",
-        "Enable stale async stream decode suppression. Default: false",
-        () => TurboAudioStreamConfig.DefaultEnableAsyncFreshnessGuardPatch
-    );
-
-    [AutoRegisterConfigKey]
-    private static readonly ModConfigurationKey<bool> EnableStreamConfigDropLogPatchKey = new(
-        "EnableStreamConfigDropLogPatch",
-        "Enable logging for stock stream drop reasons. Default: false",
-        () => TurboAudioStreamConfig.DefaultEnableStreamConfigDropLogPatch
-    );
-
-    [AutoRegisterConfigKey]
-    private static readonly ModConfigurationKey<bool> EnableReceiverHeadroomPatchKey = new(
-        "EnableReceiverHeadroomPatch",
-        "Enable remote receiver playback headroom floors. Default: false",
-        () => TurboAudioStreamConfig.DefaultEnableReceiverHeadroomPatch
-    );
-
-    [AutoRegisterConfigKey]
-    private static readonly ModConfigurationKey<bool> EnablePatchTriggerLoggingKey = new(
-        "EnablePatchTriggerLogging",
-        "Log only when one of this mod's runtime patches actually intervenes. Default: false",
-        () => TurboAudioStreamConfig.DefaultEnablePatchTriggerLogging
-    );
-
-    [AutoRegisterConfigKey]
-    private static readonly ModConfigurationKey<float> PatchLogCooldownSecondsKey = new(
-        "PatchLogCooldownSeconds",
-        "Minimum number of seconds before the same patch trigger log is emitted again. Default: 5.0",
-        () => TurboAudioStreamConfig.DefaultPatchLogCooldownSeconds
-    );
-
-    [AutoRegisterConfigKey]
-    private static readonly ModConfigurationKey<float> ReceiverMinimumBufferDelayFloorKey = new(
-        "ReceiverMinimumBufferDelayFloor",
-        "Floor applied to remote receiver minimum buffer delay when the receiver headroom patch is enabled. Default: 0.05",
-        () => TurboAudioStreamConfig.DefaultReceiverMinimumBufferDelayFloor
-    );
-
-    [AutoRegisterConfigKey]
-    private static readonly ModConfigurationKey<int> ReceiverBufferSizeFloorKey = new(
-        "ReceiverBufferSizeFloor",
-        "Floor applied to remote receiver buffer size when the receiver headroom patch is enabled. Default: 12000",
-        () => TurboAudioStreamConfig.DefaultReceiverBufferSizeFloor
-    );
-
     /// <inheritdoc />
     public override void OnEngineInit()
     {
@@ -145,16 +84,13 @@ public sealed class TurboAudioStreamMod : ResoniteMod
 
     private static void Init(ResoniteMod? mod)
     {
-        configuration = mod?.GetConfiguration();
+        harmony.PatchAll();
+        ModConfiguration? configuration = mod?.GetConfiguration();
 
         if (configuration is not null)
         {
             ApplyConfiguration(configuration);
             configuration.OnThisConfigurationChanged += conf => ApplyConfiguration(conf.Config);
-        }
-        else
-        {
-            AudioPatchManager.Synchronize();
         }
     }
 
@@ -164,26 +100,6 @@ public sealed class TurboAudioStreamMod : ResoniteMod
         TurboAudioStreamConfig.BufferSize = config.GetValue(BufferSizeKey);
         TurboAudioStreamConfig.ApplicationType = config.GetValue(OpusApplicationTypeKey);
         TurboAudioStreamConfig.EncoderDelay = config.GetValue(EncoderDelayKey);
-        TurboAudioStreamConfig.EnableOutgoingTuningPatch = config.GetValue(EnableOutgoingTuningPatchKey);
-        TurboAudioStreamConfig.EnableBindRepairPatch = config.GetValue(EnableBindRepairPatchKey);
-        TurboAudioStreamConfig.EnableAsyncFreshnessGuardPatch = config.GetValue(
-            EnableAsyncFreshnessGuardPatchKey
-        );
-        TurboAudioStreamConfig.EnableStreamConfigDropLogPatch = config.GetValue(
-            EnableStreamConfigDropLogPatchKey
-        );
-        TurboAudioStreamConfig.EnableReceiverHeadroomPatch = config.GetValue(
-            EnableReceiverHeadroomPatchKey
-        );
-        TurboAudioStreamConfig.EnablePatchTriggerLogging = config.GetValue(
-            EnablePatchTriggerLoggingKey
-        );
-        TurboAudioStreamConfig.PatchLogCooldownSeconds = config.GetValue(PatchLogCooldownSecondsKey);
-        TurboAudioStreamConfig.ReceiverMinimumBufferDelayFloor = config.GetValue(
-            ReceiverMinimumBufferDelayFloorKey
-        );
-        TurboAudioStreamConfig.ReceiverBufferSizeFloor = config.GetValue(ReceiverBufferSizeFloorKey);
-        AudioPatchManager.Synchronize();
     }
 
 #if DEBUG
@@ -192,7 +108,7 @@ public sealed class TurboAudioStreamMod : ResoniteMod
     /// </summary>
     public static void BeforeHotReload()
     {
-        AudioPatchManager.UnpatchAll();
+        harmony.UnpatchAll(HarmonyId);
     }
 
     /// <summary>
